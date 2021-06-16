@@ -18,43 +18,84 @@ module top_tb(
 reg clk;
 reg rst;
 reg button;
-wire colour;
+reg [2:0] colour_prev;
+wire [2:0] colour;
 reg err;
 
     initial
     begin
        clk = 1'b0;
-       forever
-         #(CLK_PERIOD/2) clk=~clk;
+       forever begin
+         #(CLK_PERIOD/2);
+         clk=~clk;
+     end
      end
 
 initial begin
+	err=0;
 	clk=0;
+
 	rst=0;
 	button=0;
-	err=0;
-	#6
+
+	#(CLK_PERIOD*10)
+	rst=1;
+	button=0;
+
+	#(CLK_PERIOD*10)
+	rst=0;
+	button=1;
+
+	#(CLK_PERIOD*10)
+	rst=1;
+	button=0;
+	
+		#(CLK_PERIOD>>1);
+		forever begin
+			colour_prev = colour;
+			#CLK_PERIOD;
+		end
+
 
 forever begin #6
 	$display("The program runs and it can print");
 	
+	if (rst) begin
+		if (colour == {001}) begin
+		$display("Reset function works");
+		end 
+		else begin
+		err = err +1;
+		$display("Reset ERROR");
+		end
+	end
+	if (button) begin
+		if (colour == colour_prev+3'b1) begin
+		$display("Button function works");
+		end else begin
+		err = err +1;
+		$display("Button ERROR");
+	end
+	
+end
 end
 end
 
 //Todo: Finish test, check for success
       initial begin
-        #50 
+        #500 
         if (err==0)
           $display("***TEST PASSED! :) ***");
         $finish;
       end
 
+	
+
 //Todo: Instantiate counter module
-light top (
+lights top (
 	.clk (clk),
 	.rst (rst),
 	.button (button),
-	.on_off (on_off),
 	.colour (colour)
     );
  

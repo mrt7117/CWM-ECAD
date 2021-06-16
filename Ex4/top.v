@@ -31,35 +31,15 @@ module lights(
     //Todo: add user logic
 	always @ (posedge clk or posedge rst) begin
 		if(rst) begin
-		colour = {000}		
+		colour <= {000}		;
 		end
 
-		if (colour == {000}) || (colour ==  {111}) || (colour == {001}) begin #10
-			colour = {001};
+		else if(button) begin
+			colour <= colour +3'b1;
+		end else if ((colour == {000}) || (colour ==  {111}) || (colour == {001})) begin #10
+			colour <= {001};
 		end
 
-		if(button) begin
-			if (colour = {001} begin #10
-			colour = {010};
-			end
-			else if (colour = {010} begin #10			
-			colour = {011};
-			end
-			else if (colour = {011} begin #10			
-			colour = {100};
-			end
-			else if (colour = {100} begin #10			
-			colour = {101};
-			end
-			else if (colour = {110} begin #10			
-			colour = {011};
-			end
-			else if (colour = {110} begin #10			
-			colour = {001};
-			end
-		end else begin
-		colour = colour;
-		end
 	end
-end module
+endmodule
 	  
