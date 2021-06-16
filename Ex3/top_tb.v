@@ -21,16 +21,19 @@ reg clk;
 reg rst;
 reg change;
 reg on_off;
-wire counter_out;
+wire [7:0] counter_out;
+reg [7:0] counter_out_prev;
 reg err;
 
 //Todo: Clock generation
     initial
     begin
        clk = 1'b0;
-       forever
+       forever begin
          #(CLK_PERIOD/2) clk=~clk;
      end
+     end
+	
 
 //Todo: User logic
 initial begin
@@ -39,19 +42,31 @@ initial begin
 	change=0;
 	on_off=0;
 	err=0;
-	#6
+	#CLK_PERIOD
 
-forever begin #6
+forever begin
 	$display("The program runs and it can print");
-		res = 1;
-	clk = clk 		
+	#CLK_PERIOD	
+	
+	counter_out_prev = on_off? counter_out_prev + 1: counter_out_prev -1;
+	
+	if (counter_out_prev!= counter_out) begin
+  		$display("***TEST FAILED! :( ***");
+  		err=1;
+  	end
+
+	if (counter_out== 8'hf0) begin
+    	on_off = ~on_off;
+	end
+
+
+
 end
-		if (ckl ==
 end
 
 //Todo: Finish test, check for success
       initial begin
-        #50 
+        #500 
         if (err==0)
           $display("***TEST PASSED! :) ***");
         $finish;
