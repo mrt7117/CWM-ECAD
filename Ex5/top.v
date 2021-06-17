@@ -28,24 +28,29 @@ module AC(
 reg [1:0] state;
 wire heating, cooling;
 
-always @ (posedge clk) begin
-	if (state == 2'b00) begin //idle
-		state <= (temperature <= 5'b10010) ? 2'b10: 2'b00;
-		state <= (temperature >= 5'b10110) ? 2'b01: 2'b00;
+  assign heating = (state == 2'b10); 
+  assign cooling = (state == 2'b01);
+  assign idle = (state == 2'b00);
+
+
+	always @ (posedge clk) begin
+		if (state == 2'b00) begin //idle
+			state <= (temperature <= 5'b10010) ? 2'b10: 2'b00;
+			state <= (temperature >= 5'b10110) ? 2'b01: 2'b00;
+		end
+
+  		else if (state== 2'b01) begin		// cooling
+       		state <= (temperature <= 5'b10100) ? 2'b00: 2'b01;
+      	end
+
+  		else if (temperature < 5'b10010) begin	// heating state
+       		state <= (temperature >= 5'b10100) ? 2'b00: 2'b10;	//turn off heating if T>= 20
+      	end
+
+		else begin   			// forbidden state
+		state= 2'b00;
+		end
 	end
-
-  else if (state== 2'b01) begin		// cooling
-       state <= (temperature <= 5'b10100) ? 2'b00: 2'b01;
-      end
-
-  else if (state== 2'b10) begin	// heating state
-       state <= (temperature >= 5'b10100) ? 2'b00: 2'b10;	//turn off heating if T>= 20
-      end
-
-  else begin   			// forbidden state
-      state= 2'b00;
-     end
-end
 
 endmodule
 

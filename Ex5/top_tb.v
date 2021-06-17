@@ -29,10 +29,17 @@ end
 
  initial begin
     err = 0;
-    temperature = 5'b11001; // 25		5'b01111 would be 15
+    temperature = 5'b01111; // 25		5'b01111 would be 15
+	
     
     forever begin
-    	#CLK_PERIOD
+    #CLK_PERIOD
+	#(CLK_PERIOD*10)
+	temperature = temperature +1;
+
+
+
+
 	if((temperature<=5'b10010)&(heating != 1'b1)&(cooling != 1'b0)) begin 
         	err = 1;
 		$display("Heating ERROR: Incorrect AC function below 18deg");
