@@ -42,12 +42,11 @@ module top_tb(
 	#CLK_PERIOD
 	enable = 1;
 	forever begin
-		#(CLK_PERIOD*3)
+		#(CLK_PERIOD*10)
 		
-		//the one bit in the input turns to eight bits in the output with each bit in its coresponding position
 		if((colour[0] != (&rgb[7:0])) || (colour[1] != (&rgb[15:8])) || (colour[2] != (&rgb[23:16])))
 			begin
-			$display("TEST FAILED");
+			$display("Error ");
 			err = 1;
 			end
 		
