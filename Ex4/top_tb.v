@@ -35,12 +35,12 @@ initial begin
 	err=0;
 	clk=0;
 
-	rst=0;
+	rst=1;
 	button=0;
 
 	#(CLK_PERIOD*10)
-	rst=1;
-	button=0;
+	rst=0;
+	button=1;
 
 	#(CLK_PERIOD*10)
 	rst=0;
