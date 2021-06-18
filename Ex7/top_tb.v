@@ -35,7 +35,9 @@ module top_tb(
 	sel = 0;
 	button = 0;
 	light_prev = 24'd10;
-	
+	#10
+
+
 		forever begin
         light_prev = light;
 			#(CLK_PERIOD*5)
