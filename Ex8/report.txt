@@ -1,0 +1,29 @@
+**EXERCISE 8 REPORT**
+
+1. Errors? Critical Warnings?
+--> No errors
+--> 14 Critical warnings. Usually due to commands being not recognised or not supported
+--> 8 warnings. Often due to lack of constraint or no clock.
+
+2. Worst case hold time (WHS)?
+--> 0.100
+
+3. Worst case setup time (WNS)?
+-->9.621
+
+4. #LUTs?
+--> 1 (one)
+
+5. #FF?
+--> 1 (one)
+
+6. How much block RAM?
+-->0.0
+
+7. Expected power consumption?
+--> 2.474
+
+8. How long to synthesize and implement design?
+--> 20.09sec
+
+
