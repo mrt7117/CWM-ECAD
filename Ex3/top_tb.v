@@ -60,11 +60,18 @@ forever begin
 	end
 
 
-	#CLK_PERIOD
+	#(CLK_PERIOD*10)
 	counter_out_prev = counter_out;
 	rst=0;
 	change=1;
-	on_off=1;	
+	on_off=0;
+
+	#(CLK_PERIOD*10)
+	rst=0;
+	change=1;
+	on_off=-1;	
+	
+	#(CLK_PERIOD*10)
 
 	if((on_off == 1) && (counter_out < counter_out_prev))  
 	begin
