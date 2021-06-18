@@ -37,18 +37,18 @@ reg err;
 
 //Todo: User logic
 initial begin
-	clk=0;
-	rst=0;
+	rst=1;
 	change=0;
-	on_off=0;
+	on_off=1;
 	err=0;
 	#CLK_PERIOD
 
 forever begin
 	$display("The program runs and it can print");
-	#CLK_PERIOD	
+	#CLK_PERIOD
+	counter_out_prev = counter_out;	
 	
-	counter_out_prev = on_off? counter_out_prev + 1: counter_out_prev -1;
+	//counter_out_prev = on_off? counter_out_prev + 1: counter_out_prev -1;
 	
 	if (counter_out_prev!= counter_out) begin
   		$display("***TEST FAILED! :( ***");
@@ -59,6 +59,18 @@ forever begin
     	on_off = ~on_off;
 	end
 
+
+	#CLK_PERIOD
+	counter_out_prev = counter_out;
+	rst=0;
+	change=1;
+	on_off=1;	
+
+	if((on_off == 1) && (counter_out < counter_out_prev))  
+	begin
+		$display("TEST FAILED");
+		err = 1;
+	end
 
 
 end
