@@ -34,14 +34,14 @@ module top_tb(
 	rst = 1;
 	sel = 0;
 	button = 0;
-	light_prev = light;
+	light_prev = 24'd10;
 	
 		forever begin
         light_prev = light;
 			#(CLK_PERIOD*5)
 			
 			if (light != 24'hffffff) begin
-				$display("TEST FAILED");
+				$display("TEST FAILED. Should be white light when sel=1");
 				err = 1;
 			end
 
@@ -49,10 +49,7 @@ module top_tb(
 		    	sel = 1;
 		    	button = 1;
 		    	#(CLK_PERIOD*5)
-			if (light!=24'h000000) begin
-				$display("TEST FAILED");
-				err = 1;
-			end
+
 
 			button = 1;
 			#(CLK_PERIOD*5)
@@ -72,11 +69,12 @@ module top_tb(
 			
 
 			rst = 0;
-			button = 0;
+			button = 1;
 			#(CLK_PERIOD*5)
 			light_prev = light;
+
 			if (light_prev != light) begin
-				$display("TEST FAILED");
+				$display("TEST FAILED light_prev!=light");
 				err = 1;
 
 		
@@ -86,15 +84,20 @@ module top_tb(
 
 		end
 
+
 			
+
+
+
 
 
 		forever begin
 			button = 1;
 			#(CLK_PERIOD*10)
+
 			if(light_prev == light)
 				begin
-				$display("TEST FAILED");
+				$display("TEST FAILED light_prev=light");
 				err = 1;
 			end
 
